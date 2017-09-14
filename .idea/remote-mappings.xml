@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteMappingsManager">
+    <list>
+      <list>
+        <remote-mappings server-id="python@ssh://ubuntu@123.206.187.254:22/home/analyser/essentia_venv/bin/python">
+          <settings>
+            <list>
+              <mapping local-root="&lt;Project root&gt;" remote-root="/tmp/pycharm_project_489" />
+            </list>
+          </settings>
+        </remote-mappings>
+      </list>
+    </list>
+  </component>
+</project>
