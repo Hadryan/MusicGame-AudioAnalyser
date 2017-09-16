@@ -1,19 +1,39 @@
-from flask import Flask
+from unicodedata import normalize
+from flask import Flask, request
+from util import security
 import ConfigParser
 import os
 
-app = Flask(__name__)
+UPLOAD_FOLDER = '/home/ubuntu/audio_repo'
 
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/')
 def hello_world():
     return "Hello!"
 
+@app.route('/file', methods=['POST'])
+def upload_file():
+    file = request.files['file']
+    if file:
+        raw_file_name_uft8 = normalize('NFKD', file.filename).encode('utf-8', 'strict').decode('utf-8')
+        filename = security.secure_filename(raw_file_name_uft8)
+        path_name = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(path_name)
+        return path_name
+    return "hoops, there may be some error"
+
+def get_port():
+    config = ConfigParser.ConfigParser()
+    config.read(os.path.abspath('..') + '/config.ini')
+    port = config.get("remote", "port")
+    return int(port)
 
 if __name__ == '__main__':
     # modify the port dynamically
-    config = ConfigParser.ConfigParser()
-    config.read(os.path.abspath('..') + '/config.ini')
-    remote_port = config.get("remote", "port")
 
-    app.run(host='0.0.0.0', port=int(remote_port), debug=True)
+    remote_port = get_port()
+
+    app.run(host='0.0.0.0', port=remote_port, debug=True)
