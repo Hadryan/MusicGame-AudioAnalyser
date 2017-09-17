@@ -1,4 +1,5 @@
 import essentia
+import json
 from essentia.streaming import *
 
 def rhythm_extractor(filename):
@@ -14,5 +15,7 @@ def rhythm_extractor(filename):
     bt.bpmIntervals >> (pool, 'bpmIntervals')
     essentia.run(loader)
 
-    print pool
-    return (pool['bpm'], pool['ticks'], pool['confidence'], pool['estimates'], pool['bpmIntervals'])
+    result = {'bpm' : pool['bpm'], 'ticks' : pool['ticks'], 'confidence' : pool['confidence'], 'estimates' : pool['estimates'], 'bpmIntervals' : pool['bpmIntervals']}
+    print result
+
+    return result

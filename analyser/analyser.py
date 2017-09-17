@@ -28,7 +28,7 @@ def upload_file():
 @app.route('/rhythm', methods=['POST'])
 def audio_rhythm_info():
     filename = request.form['filename']
-    return rhythm.rhythm_extractor(filename)
+    return str(rhythm.rhythm_extractor(filename))
 
 def get_port():
     config = ConfigParser.ConfigParser()
