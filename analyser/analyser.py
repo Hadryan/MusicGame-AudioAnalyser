@@ -12,7 +12,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/')
 def hello_world():
-    return "Hello!"
+    return "Hello!!!!"
 
 @app.route('/file', methods=['POST'])
 def upload_file():
@@ -39,4 +39,4 @@ def get_port():
 if __name__ == '__main__':
     # modify the port dynamically
     remote_port = get_port()
-    app.run(host='0.0.0.0', port=remote_port, debug=True)
+    app.run(host='0.0.0.0', port=remote_port)

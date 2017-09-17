@@ -15,7 +15,7 @@ def rhythm_extractor(filename):
     bt.bpmIntervals >> (pool, 'bpmIntervals')
     essentia.run(loader)
 
-    result = {'bpm' : pool['bpm'], 'ticks' : pool['ticks'], 'confidence' : pool['confidence'], 'estimates' : pool['estimates'], 'bpmIntervals' : pool['bpmIntervals']}
+    result = {'bpm' : pool['bpm'], 'ticks' : list(pool['ticks']), 'confidence' : pool['confidence'], 'estimates' : list(pool['estimates']), 'bpmIntervals' : list(pool['bpmIntervals'])}
     print result
 
     return result
