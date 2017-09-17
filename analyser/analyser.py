@@ -1,6 +1,6 @@
 from unicodedata import normalize
 from flask import Flask, request
-from util import security
+from util import security, rhythm
 import ConfigParser
 import os
 
@@ -25,6 +25,11 @@ def upload_file():
         return path_name
     return "hoops, there may be some error"
 
+@app.route('/rhythm', methods=['POST'])
+def audio_rhythm_info():
+    filename = request.form['filename']
+    return rhythm.rhythm_extractor(filename)
+
 def get_port():
     config = ConfigParser.ConfigParser()
     config.read(os.path.abspath('..') + '/config.ini')
@@ -33,7 +38,5 @@ def get_port():
 
 if __name__ == '__main__':
     # modify the port dynamically
-
     remote_port = get_port()
-
     app.run(host='0.0.0.0', port=remote_port, debug=True)
