@@ -4,7 +4,7 @@ import re
 import os
 
 def secure_filename(filename):
-    _filename_gbk_strip_re = re.compile(r'^[\u4e00-\u9fa5_a-zA-Z0-9.]+$')
+    _filename_gbk_strip_re = re.compile(r'^[a-zA-Z0-9_\u4e00-\u9fa5]+$')
     _windows_device_files = ('CON', 'AUX', 'COM1', 'COM2', 'COM3', 'COM4', 'LPT1',
                              'LPT2', 'LPT3', 'PRN', 'NUL')
 
@@ -15,6 +15,7 @@ def secure_filename(filename):
     for sep in os.path.sep, os.path.altsep:
         if sep:
             filename = filename.replace(sep, ' ')
+
 
     filename = str(_filename_gbk_strip_re.sub('', '_'.join(
                    filename.split()))).strip('._')
