@@ -5,9 +5,16 @@ from essentia.streaming import *
 def rhythm_extractor(filename):
     pool = essentia.Pool()
 
-    loader = MonoLoader(filename=filename)
+    loader = AudioLoader(filename=filename)
+    mixer = MonoMixer()
     bt = RhythmExtractor2013()
-    loader.audio >> bt.signal
+    loader.audio >> mixer.audio
+    loader.numberChannels >> mixer.numberChannels
+    loader.sampleRate >> None
+    loader.md5 >> None
+    loader.bit_rate >> None
+    loader.codec >> None
+    mixer.audio >> bt.signal
     bt.bpm >> (pool, 'bpm')
     bt.ticks >> (pool, 'ticks')
     bt.confidence >> (pool, 'confidence')
