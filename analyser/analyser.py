@@ -1,13 +1,10 @@
-from unicodedata import normalize
-from flask import Flask, request
-from util import security, rhythm
 import ConfigParser
 import os
-
-UPLOAD_FOLDER = '/home/ubuntu/audio_repo'
+from flask import Flask, request
+from util import rhythm, file, variables
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = variables.UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 @app.route('/')
@@ -16,14 +13,8 @@ def hello_world():
 
 @app.route('/file', methods=['POST'])
 def upload_file():
-    file = request.files['file']
-    if file:
-        raw_file_name_uft8 = normalize('NFKD', file.filename).encode('utf-8', 'strict').decode('utf-8')
-        filename = security.secure_filename(raw_file_name_uft8)
-        path_name = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(path_name)
-        return path_name
-    return "hoops, there may be some error"
+    music_file = request.files['file']
+    return str(file.file_save(music_file=music_file))
 
 @app.route('/rhythm', methods=['POST'])
 def audio_rhythm_info():

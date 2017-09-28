@@ -1,0 +1,1 @@
+UPLOAD_FOLDER = '/home/ubuntu/audio_repo'

@@ -1,6 +1,8 @@
 #encoding:utf-8
 import essentia
 import json
+import variables
+import os
 from essentia.streaming import *
 from multiprocessing import Process, Manager
 
@@ -8,6 +10,7 @@ manager = Manager()
 result = manager.list()
 
 def rhythm_extractor(filename):
+    filename = os.path.join(variables.UPLOAD_FOLDER, filename)
     p = Process(target=__rhythm_extractor_process, args=(filename,))
     p.start()
     p.join()
