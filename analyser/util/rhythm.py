@@ -6,18 +6,17 @@ import os
 from essentia.streaming import *
 from multiprocessing import Process, Manager
 
-manager = Manager()
-result = manager.list()
-
 def rhythm_extractor(filename):
+    manager = Manager()
+    result = manager.list()
     filename = os.path.join(variables.UPLOAD_FOLDER, filename)
-    p = Process(target=__rhythm_extractor_process, args=(filename,))
+    p = Process(target=__rhythm_extractor_process, args=(filename, result,))
     p.start()
     p.join()
     # 这里的实现不是很好，问题是python2里的manager.dict()有bug，无法共享内存，所以用list.append代替，再取第0个元素
     return result[0]
 
-def __rhythm_extractor_process(filename):
+def __rhythm_extractor_process(filename, result):
     pool = essentia.Pool()
     loader = MonoLoader(filename=filename)
     bt = RhythmExtractor2013()
